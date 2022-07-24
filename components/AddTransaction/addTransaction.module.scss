@@ -1,0 +1,12 @@
+.formContainer {
+  display: flex;
+  flex-direction: column;
+
+  input {
+    margin-bottom: 12px;
+  }
+
+  button {
+    padding: 8px;
+  }
+}
