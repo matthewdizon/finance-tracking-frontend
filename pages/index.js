@@ -24,24 +24,41 @@ export default function Home() {
 
   console.log(transactions);
 
+  const deleteTransaction = async (id) => {
+    const res = await fetch("/api/transactions/" + id, {
+      method: "DELETE",
+    });
+
+    const json = await res.json();
+
+    if (res.ok) {
+      console.log(json);
+      fetchTransactions();
+    }
+  };
+
   return (
     <Layout>
       <h1>Home</h1>
       <div className={styles.homeContainer}>
-        {loading && <div>Loading...</div>}
         <div className={styles.transactions}>
+          <h2>Transactions</h2>
+          {loading && <div>Loading...</div>}
           {transactions &&
             transactions.map((transaction, index) => {
               return (
                 <div key={index} className={styles.transaction}>
-                  <p>Amount: {transaction.amount}</p>
+                  <p>Amount: {transaction.amount.toLocaleString()}</p>
                   <p>Description: {transaction.description}</p>
                   <p>Tag: {transaction.tag}</p>
                   <p>Date: {transaction.date}</p>
-                  <p>Created: {transaction.createdAt}</p>
+                  <button onClick={() => deleteTransaction(transaction._id)}>
+                    Delete
+                  </button>
                 </div>
               );
             })}
+          {transactions?.length === 0 && <div>No transactions</div>}
         </div>
         <AddTransaction fetchTransactions={fetchTransactions} />
       </div>

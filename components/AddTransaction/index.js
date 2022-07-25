@@ -2,10 +2,14 @@ import { useState } from "react";
 import styles from "./addTransaction.module.scss";
 
 export default function AddTransaction({ fetchTransactions }) {
+  const curr = new Date();
+  curr.setDate(curr.getDate() + 3);
+  const today = curr.toISOString().substring(0, 10);
+
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
   const [tag, setTag] = useState("Expense");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(today);
   const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
@@ -31,14 +35,15 @@ export default function AddTransaction({ fetchTransactions }) {
       setError(null);
       setAmount("");
       setDescription("");
-      setTag("");
-      setDate("");
+      setTag("Expense");
+      setDate(today);
       fetchTransactions();
     }
   };
 
   return (
     <div className={styles.addContainer}>
+      <h2>Add Transaction</h2>
       <form className={styles.formContainer} onSubmit={handleSubmit}>
         <label>Amount</label>
         <input

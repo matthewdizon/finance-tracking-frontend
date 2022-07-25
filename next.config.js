@@ -5,6 +5,10 @@ module.exports = () => {
         source: "/api/transactions",
         destination: "http://localhost:4000/api/transactions",
       },
+      {
+        source: "/api/transactions/:id",
+        destination: "http://localhost:4000/api/transactions/:id",
+      },
     ];
   };
   return {
