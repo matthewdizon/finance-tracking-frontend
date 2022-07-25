@@ -5,7 +5,7 @@ export default function Navbar() {
   return (
     <nav className={styles.navContainer}>
       <Link href="/">Home</Link>
-      <Link href="/add">Add</Link>
+      <Link href="/wallets">Wallets</Link>
     </nav>
   );
 }

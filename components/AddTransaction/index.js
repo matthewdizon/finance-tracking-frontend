@@ -1,10 +1,10 @@
 import { useState } from "react";
 import styles from "./addTransaction.module.scss";
 
-export default function AddTransaction() {
+export default function AddTransaction({ fetchTransactions }) {
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
-  const [tag, setTag] = useState("");
+  const [tag, setTag] = useState("Expense");
   const [date, setDate] = useState("");
   const [error, setError] = useState(null);
 
@@ -33,11 +33,12 @@ export default function AddTransaction() {
       setDescription("");
       setTag("");
       setDate("");
+      fetchTransactions();
     }
   };
 
   return (
-    <div>
+    <div className={styles.addContainer}>
       <form className={styles.formContainer} onSubmit={handleSubmit}>
         <label>Amount</label>
         <input
@@ -54,20 +55,25 @@ export default function AddTransaction() {
         />
 
         <label>Tag</label>
-        <input
-          type="text"
-          onChange={(e) => setTag(e.target.value)}
-          value={tag}
-        />
+        {/* in the future, change this to get all the options set from the backend */}
+        {/* enum: ["Expense", "Investment", "Income", "Transfer", "Savings"], */}
+        <select value={tag} onChange={(e) => setTag(e.target.value)}>
+          <option value="Expense">Expense</option>
+          <option value="Income">Income</option>
+          <option value="Investment">Investment</option>
+          <option value="Transfer">Transfer</option>
+          <option value="Savings">Savings</option>
+        </select>
 
         <label>Date</label>
         <input
-          type="text"
+          type="date"
           onChange={(e) => setDate(e.target.value)}
           value={date}
         />
 
         <button>Add Transaction</button>
+        {error && <div>{error}</div>}
       </form>
     </div>
   );

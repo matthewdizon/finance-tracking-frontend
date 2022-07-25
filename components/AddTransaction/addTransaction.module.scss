@@ -1,12 +1,17 @@
-.formContainer {
-  display: flex;
-  flex-direction: column;
+.addContainer {
+  width: 50%;
+  padding-left: 160px;
 
-  input {
-    margin-bottom: 12px;
-  }
+  .formContainer {
+    display: flex;
+    flex-direction: column;
 
-  button {
-    padding: 8px;
+    input {
+      margin-bottom: 12px;
+    }
+
+    button {
+      padding: 8px;
+    }
   }
 }

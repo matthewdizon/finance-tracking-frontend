@@ -1,15 +1,20 @@
-.transactions {
-  // background-color: red;
-  height: 100vh;
-  // display: grid;
-  // grid-template-columns: 1fr 1fr 1fr;
+.homeContainer {
+  display: flex;
 
-  .transaction {
-    background-color: white;
-    border-radius: 8px;
-    padding: 16px;
-    color: black;
-    // width: 60%;
-    margin-bottom: 8px;
+  .transactions {
+    // background-color: red;
+    width: 50%;
+    height: 100vh;
+    // display: grid;
+    // grid-template-columns: 1fr 1fr 1fr;
+
+    .transaction {
+      background-color: white;
+      border-radius: 8px;
+      padding: 16px;
+      color: black;
+      // width: 60%;
+      margin-bottom: 8px;
+    }
   }
 }
