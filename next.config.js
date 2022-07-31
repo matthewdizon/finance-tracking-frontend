@@ -3,11 +3,11 @@ module.exports = () => {
     return [
       {
         source: "/api/transactions",
-        destination: "http://localhost:4000/api/transactions",
+        destination: `${process.env.BACKEND_SERVER}/api/transactions`,
       },
       {
         source: "/api/transactions/:id",
-        destination: "http://localhost:4000/api/transactions/:id",
+        destination: `${process.env.BACKEND_SERVER}/api/transactions/:id`,
       },
     ];
   };
