@@ -1,7 +1,8 @@
-import Layout from "../components/Layout";
-import styles from "../styles/wallets.module.scss";
-import AddWallet from "../components/AddWallet";
+import Layout from "../../components/Layout";
+import styles from "../../styles/wallets.module.scss";
+import AddWallet from "../../components/AddWallet";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function Wallets({ data }) {
   const router = useRouter();
@@ -35,6 +36,9 @@ export default function Wallets({ data }) {
                   )}
                   <button onClick={() => deleteWallet(wallet._id)}>
                     Delete
+                  </button>
+                  <button>
+                    <Link href={`/wallets/${wallet._id}`}>View</Link>
                   </button>
                 </div>
               );
