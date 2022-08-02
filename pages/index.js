@@ -39,7 +39,6 @@ export default function Home() {
 
   return (
     <Layout>
-      <h1>Home</h1>
       <div className={styles.homeContainer}>
         <div className={styles.transactions}>
           <h2>Transactions</h2>
@@ -49,7 +48,9 @@ export default function Home() {
               return (
                 <div key={index} className={styles.transaction}>
                   <p>Amount: {transaction.amount.toLocaleString()}</p>
-                  <p>Description: {transaction.description}</p>
+                  {transaction.description && (
+                    <p>Description: {transaction.description}</p>
+                  )}
                   <p>Tag: {transaction.tag}</p>
                   <p>Date: {transaction.date}</p>
                   <button onClick={() => deleteTransaction(transaction._id)}>

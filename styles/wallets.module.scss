@@ -1,11 +1,11 @@
-.homeContainer {
+.container {
   display: flex;
 
-  .transactions {
+  .wallets {
     width: 50%;
     height: 100vh;
 
-    .transaction {
+    .wallet {
       background-color: white;
       border-radius: 8px;
       padding: 16px;

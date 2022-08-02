@@ -47,7 +47,7 @@ export default function AddTransaction({ fetchTransactions }) {
       <form className={styles.formContainer} onSubmit={handleSubmit}>
         <label>Amount</label>
         <input
-          type="text"
+          type="number"
           onChange={(e) => setAmount(e.target.value)}
           value={amount}
         />
