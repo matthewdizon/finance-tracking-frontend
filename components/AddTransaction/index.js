@@ -1,21 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./addTransaction.module.scss";
+import { useRouter } from "next/router";
 
-export default function AddTransaction({ fetchTransactions }) {
+export default function AddTransaction({ wallets }) {
+  const router = useRouter();
+
   const curr = new Date();
   curr.setDate(curr.getDate() + 3);
   const today = curr.toISOString().substring(0, 10);
 
+  const [selectedWallet, setSelectedWallet] = useState("");
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
   const [tag, setTag] = useState("Expense");
   const [date, setDate] = useState(today);
   const [error, setError] = useState(null);
 
+  useEffect(() => {
+    setSelectedWallet(wallets[0]._id);
+  }, [wallets]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const transaction = { amount, description, tag, date };
+    const transaction = { amount, description, tag, date, selectedWallet };
 
     const res = await fetch("/api/transactions", {
       method: "POST",
@@ -36,8 +44,9 @@ export default function AddTransaction({ fetchTransactions }) {
       setAmount("");
       setDescription("");
       setTag("Expense");
+      setSelectedWallet(wallets[0]._id);
       setDate(today);
-      fetchTransactions();
+      router.push(router.asPath);
     }
   };
 
@@ -68,6 +77,20 @@ export default function AddTransaction({ fetchTransactions }) {
           <option value="Investment">Investment</option>
           <option value="Transfer">Transfer</option>
           <option value="Savings">Savings</option>
+        </select>
+
+        <label>Wallet</label>
+        <select
+          value={selectedWallet}
+          onChange={(e) => setSelectedWallet(e.target.value)}
+        >
+          {wallets?.map((wallet, index) => {
+            return (
+              <option value={wallet._id} key={index}>
+                {wallet.name}
+              </option>
+            );
+          })}
         </select>
 
         <label>Date</label>

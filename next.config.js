@@ -13,6 +13,10 @@ module.exports = () => {
         source: "/api/wallets",
         destination: `${process.env.BACKEND_SERVER}/api/wallets`,
       },
+      {
+        source: "/api/wallets/:id",
+        destination: `${process.env.BACKEND_SERVER}/api/wallets/:id`,
+      },
     ];
   };
   return {

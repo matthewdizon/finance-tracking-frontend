@@ -1,28 +1,12 @@
-import { useEffect, useState } from "react";
 import styles from "../styles/index.module.scss";
 import Layout from "../components/Layout";
 import AddTransaction from "../components/AddTransaction";
+import { useRouter } from "next/router";
 
-export default function Home() {
-  const [transactions, setTransactions] = useState(null);
-  const [loading, setLoading] = useState(false);
+export default function Home({ transactions, wallets }) {
+  const router = useRouter();
 
-  const fetchTransactions = async () => {
-    const res = await fetch("/api/transactions");
-    const json = await res.json();
-
-    if (res.ok) {
-      setTransactions(json);
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    setLoading(true);
-    fetchTransactions();
-  }, []);
-
-  console.log(transactions);
+  console.log("wallets", wallets);
 
   const deleteTransaction = async (id) => {
     const res = await fetch("/api/transactions/" + id, {
@@ -32,8 +16,7 @@ export default function Home() {
     const json = await res.json();
 
     if (res.ok) {
-      console.log(json);
-      fetchTransactions();
+      router.push(router.asPath);
     }
   };
 
@@ -42,9 +25,13 @@ export default function Home() {
       <div className={styles.homeContainer}>
         <div className={styles.transactions}>
           <h2>Transactions</h2>
-          {loading && <div>Loading...</div>}
+          {!transactions && <div>Loading...</div>}
           {transactions &&
             transactions.map((transaction, index) => {
+              const wallet = wallets.find(
+                (wallet) => wallet._id === transaction.wallet
+              );
+
               return (
                 <div key={index} className={styles.transaction}>
                   <p>Amount: {transaction.amount.toLocaleString()}</p>
@@ -53,6 +40,7 @@ export default function Home() {
                   )}
                   <p>Tag: {transaction.tag}</p>
                   <p>Date: {transaction.date}</p>
+                  <p>Wallet: {wallet?.name}</p>
                   <button onClick={() => deleteTransaction(transaction._id)}>
                     Delete
                   </button>
@@ -61,8 +49,20 @@ export default function Home() {
             })}
           {transactions?.length === 0 && <div>No transactions</div>}
         </div>
-        <AddTransaction fetchTransactions={fetchTransactions} />
+        <AddTransaction wallets={wallets} />
       </div>
     </Layout>
   );
+}
+
+export async function getServerSideProps() {
+  const transactions = await (
+    await fetch(`${process.env.BACKEND_SERVER}/api/transactions`)
+  ).json();
+
+  const wallets = await (
+    await fetch(`${process.env.BACKEND_SERVER}/api/wallets`)
+  ).json();
+
+  return { props: { transactions, wallets } };
 }

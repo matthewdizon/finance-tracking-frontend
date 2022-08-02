@@ -1,35 +1,31 @@
 import Layout from "../components/Layout";
-import { useState, useEffect } from "react";
 import styles from "../styles/wallets.module.scss";
 import AddWallet from "../components/AddWallet";
+import { useRouter } from "next/router";
 
-export default function Wallets() {
-  const [wallets, setWallets] = useState(null);
-  const [loading, setLoading] = useState(false);
+export default function Wallets({ data }) {
+  const router = useRouter();
 
-  const fetchWallets = async () => {
-    const res = await fetch("/api/wallets");
+  const deleteWallet = async (id) => {
+    const res = await fetch("/api/wallets/" + id, {
+      method: "DELETE",
+    });
+
     const json = await res.json();
 
     if (res.ok) {
-      setWallets(json);
-      setLoading(false);
+      router.push(router.asPath);
     }
   };
-
-  useEffect(() => {
-    setLoading(true);
-    fetchWallets();
-  }, []);
 
   return (
     <Layout>
       <div className={styles.container}>
         <div className={styles.wallets}>
           <h2>Wallets</h2>
-          {loading && <div>Loading...</div>}
-          {wallets &&
-            wallets.map((wallet, index) => {
+          {!data && <div>Loading...</div>}
+          {data &&
+            data.map((wallet, index) => {
               return (
                 <div key={index} className={styles.wallet}>
                   <p>Name: {wallet.name}</p>
@@ -37,16 +33,23 @@ export default function Wallets() {
                   {wallet.description && (
                     <p>Description: {wallet.description}</p>
                   )}
-                  {/* <button onClick={() => deleteTransaction(transaction._id)}>
-                Delete
-              </button> */}
+                  <button onClick={() => deleteWallet(wallet._id)}>
+                    Delete
+                  </button>
                 </div>
               );
             })}
-          {wallets?.length === 0 && <div>No wallets</div>}
+          {data?.length === 0 && <div>No wallets</div>}
         </div>
-        <AddWallet fetchWallets={fetchWallets} />
+        <AddWallet />
       </div>
     </Layout>
   );
+}
+
+export async function getServerSideProps() {
+  const res = await fetch(`${process.env.BACKEND_SERVER}/api/wallets`);
+  const data = await res.json();
+
+  return { props: { data } };
 }

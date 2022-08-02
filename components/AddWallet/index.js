@@ -1,7 +1,10 @@
+import { useRouter } from "next/router";
 import { useState } from "react";
 import styles from "./addWallet.module.scss";
 
-export default function AddWallet({ fetchWallets }) {
+export default function AddWallet({}) {
+  const router = useRouter();
+
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
@@ -31,7 +34,7 @@ export default function AddWallet({ fetchWallets }) {
       setName("");
       setAmount("");
       setDescription("");
-      fetchWallets();
+      router.push(router.asPath);
     }
   };
 
