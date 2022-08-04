@@ -1,15 +1,11 @@
 import Layout from "../../../components/Layout";
 import React from "react";
-import { useRouter } from "next/router";
 
-function WalletId({ wallets, transactions }) {
-  const router = useRouter();
-  const { id } = router.query;
-
-  const wallet = wallets?.find((wallet) => wallet._id === id);
+function WalletId({ wallets, transactions, walletId }) {
+  const wallet = wallets?.find((wallet) => wallet._id === walletId);
 
   const walletTransactions = transactions?.filter((transaction) =>
-    transaction.wallet.includes(id)
+    transaction.wallet.includes(walletId)
   );
 
   console.log("tx", walletTransactions);
@@ -43,5 +39,7 @@ export async function getServerSideProps(context) {
     await fetch(`${process.env.BACKEND_SERVER}/api/transactions/`)
   ).json();
 
-  return { props: { wallets, transactions } };
+  const walletId = context.params.id;
+
+  return { props: { wallets, transactions, walletId } };
 }
