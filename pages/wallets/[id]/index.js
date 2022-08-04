@@ -8,8 +8,6 @@ function WalletId({ wallets, transactions, walletId }) {
     transaction.wallet.includes(walletId)
   );
 
-  console.log("tx", walletTransactions);
-
   return (
     <Layout>
       <h1>WalletId: {wallet?.name}</h1>

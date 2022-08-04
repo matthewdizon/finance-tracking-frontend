@@ -2,11 +2,10 @@ import styles from "../styles/index.module.scss";
 import Layout from "../components/Layout";
 import AddTransaction from "../components/AddTransaction";
 import { useRouter } from "next/router";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 export default function Home({ transactions, wallets }) {
   const router = useRouter();
-
-  console.log("wallets", wallets);
 
   const deleteTransaction = async (id) => {
     const res = await fetch("/api/transactions/" + id, {

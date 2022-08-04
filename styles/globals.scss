@@ -24,3 +24,14 @@ a {
     background: black;
   }
 }
+
+button {
+  padding: 8px 12px;
+  border: 1px solid black;
+  border-radius: 4px;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 90%;
+  }
+}
