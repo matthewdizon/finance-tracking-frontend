@@ -12,10 +12,6 @@ export default function Home({ transactions, wallets }) {
   const user = session?.user;
   const userId = user?.id;
 
-  if (!session) {
-    return <div></div>;
-  }
-
   const deleteTransaction = async (id) => {
     const res = await fetch("/api/transactions/" + id, {
       method: "DELETE",
@@ -31,6 +27,22 @@ export default function Home({ transactions, wallets }) {
   transactions = transactions?.filter((transaction) => {
     return transaction.user === userId;
   });
+
+  wallets = wallets?.filter((wallet) => {
+    return wallet.user === userId;
+  });
+
+  if (wallets?.length === 0) {
+    return (
+      <Layout>
+        <div className={styles.emptyWalletContainer}>
+          <h2>Want to add a transaction?</h2>
+          <p>It looks like you don&apos;t have any wallets yet</p>
+          <Link href={"/wallets"}>Add a wallet here!</Link>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
@@ -61,15 +73,7 @@ export default function Home({ transactions, wallets }) {
             })}
           {transactions?.length === 0 && <div>No transactions</div>}
         </div>
-        {!wallets?.length === 0 ? (
-          <AddTransaction wallets={wallets} />
-        ) : (
-          <div className={styles.emptyWalletContainer}>
-            <h2>Want to add a transaction?</h2>
-            <p>It looks like you don&apos;t have any wallets yet</p>
-            <Link href={"/wallets"}>Add a wallet here!</Link>
-          </div>
-        )}
+        <AddTransaction wallets={wallets} />
       </div>
     </Layout>
   );
