@@ -1,6 +1,6 @@
 import Link from "next/link";
 import styles from "./navbar.module.scss";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -10,6 +10,7 @@ export default function Navbar() {
     <nav className={styles.navContainer}>
       <div>
         <Link href="/">Home</Link>
+        <Link href="/transactions">Transactions</Link>
         <Link href="/wallets">Wallets</Link>
       </div>
       {user ? (
