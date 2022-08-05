@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 import styles from "./addTransaction.module.scss";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 export default function AddTransaction({ wallets }) {
   const router = useRouter();
+
+  const { data: session } = useSession();
+  const user = session?.user;
+  const userId = user?.id;
 
   const curr = new Date();
   curr.setDate(curr.getDate() + 3);
@@ -15,6 +20,7 @@ export default function AddTransaction({ wallets }) {
   const [tag, setTag] = useState("Expense");
   const [date, setDate] = useState(today);
   const [error, setError] = useState(null);
+  // const [id, setId] = useState("");
 
   useEffect(() => {
     setSelectedWallet(wallets[0]._id);
@@ -23,7 +29,14 @@ export default function AddTransaction({ wallets }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const transaction = { amount, description, tag, date, selectedWallet };
+    const transaction = {
+      amount,
+      description,
+      tag,
+      date,
+      selectedWallet,
+      userId,
+    };
 
     const res = await fetch("/api/transactions", {
       method: "POST",
@@ -99,6 +112,8 @@ export default function AddTransaction({ wallets }) {
           onChange={(e) => setDate(e.target.value)}
           value={date}
         />
+
+        <input type="hidden" value={userId || ""} />
 
         <button>Add Transaction</button>
         {error && <div>{error}</div>}

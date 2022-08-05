@@ -2,10 +2,14 @@ import styles from "../styles/index.module.scss";
 import Layout from "../components/Layout";
 import AddTransaction from "../components/AddTransaction";
 import { useRouter } from "next/router";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 export default function Home({ transactions, wallets }) {
   const router = useRouter();
+
+  const { data: session } = useSession();
+  const user = session?.user;
+  const userId = user?.id;
 
   const deleteTransaction = async (id) => {
     const res = await fetch("/api/transactions/" + id, {
@@ -18,6 +22,12 @@ export default function Home({ transactions, wallets }) {
       router.push(router.asPath);
     }
   };
+
+  transactions = transactions?.filter((transaction) => {
+    return transaction.user === userId;
+  });
+
+  console.log(transactions);
 
   return (
     <Layout>
