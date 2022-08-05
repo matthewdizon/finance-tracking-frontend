@@ -1,9 +1,14 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 import styles from "./addWallet.module.scss";
+import { useSession } from "next-auth/react";
 
 export default function AddWallet({}) {
   const router = useRouter();
+
+  const { data: session } = useSession();
+  const user = session?.user;
+  const userId = user?.id;
 
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
@@ -13,7 +18,7 @@ export default function AddWallet({}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const wallet = { name, amount, description };
+    const wallet = { name, amount, description, userId };
 
     const res = await fetch("/api/wallets", {
       method: "POST",
@@ -62,6 +67,8 @@ export default function AddWallet({}) {
           onChange={(e) => setDescription(e.target.value)}
           value={description}
         />
+
+        <input type="hidden" value={userId || ""} />
 
         <button>Add Wallet</button>
         {error && <div>{error}</div>}

@@ -20,7 +20,10 @@ export default function AddTransaction({ wallets }) {
   const [tag, setTag] = useState("Expense");
   const [date, setDate] = useState(today);
   const [error, setError] = useState(null);
-  // const [id, setId] = useState("");
+
+  wallets = wallets?.filter((wallet) => {
+    return wallet.user === userId;
+  });
 
   useEffect(() => {
     setSelectedWallet(wallets[0]._id);
