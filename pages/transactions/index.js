@@ -1,8 +1,9 @@
-import styles from "../../styles/index.module.scss";
+import styles from "../../styles/transactions.module.scss";
 import Layout from "../../components/Layout";
 import AddTransaction from "../../components/AddTransaction";
 import { useRouter } from "next/router";
 import { getSession, useSession } from "next-auth/react";
+import Link from "next/link";
 
 export default function Home({ transactions, wallets }) {
   const router = useRouter();
@@ -60,7 +61,15 @@ export default function Home({ transactions, wallets }) {
             })}
           {transactions?.length === 0 && <div>No transactions</div>}
         </div>
-        <AddTransaction wallets={wallets} />
+        {!wallets?.length === 0 ? (
+          <AddTransaction wallets={wallets} />
+        ) : (
+          <div className={styles.emptyWalletContainer}>
+            <h2>Want to add a transaction?</h2>
+            <p>It looks like you don&apos;t have any wallets yet</p>
+            <Link href={"/wallets"}>Add a wallet here!</Link>
+          </div>
+        )}
       </div>
     </Layout>
   );

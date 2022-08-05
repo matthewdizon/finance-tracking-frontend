@@ -11,7 +11,9 @@ export default function SignIn({ providers }) {
         <div key={provider.name}>
           <button
             onClick={() =>
-              signIn(provider.id, { callbackUrl: `${window.location.origin}/` })
+              signIn(provider.id, {
+                callbackUrl: `${window.location.origin}/transactions`,
+              })
             }
           >
             Sign in with {provider.name}
