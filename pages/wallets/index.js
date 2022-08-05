@@ -4,7 +4,6 @@ import AddWallet from "../../components/AddWallet";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { getSession, useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
 
 export default function Wallets({ wallets }) {
   const router = useRouter();
@@ -12,8 +11,6 @@ export default function Wallets({ wallets }) {
   const { data: session } = useSession();
   const user = session?.user;
   const userId = user?.id;
-
-  const [userWallets, setUserWallets] = useState(null);
 
   const deleteWallet = async (id) => {
     const res = await fetch("/api/wallets/" + id, {
@@ -27,22 +24,18 @@ export default function Wallets({ wallets }) {
     }
   };
 
-  useEffect(() => {
-    setUserWallets(
-      wallets?.filter((wallet) => {
-        return wallet.user === userId;
-      })
-    );
-  }, [wallets, userId]);
+  wallets = wallets?.filter((wallet) => {
+    return wallet.user === userId;
+  });
 
   return (
     <Layout>
       <div className={styles.container}>
         <div className={styles.wallets}>
           <h2>Wallets</h2>
-          {!userWallets && <div>Loading...</div>}
-          {userWallets &&
-            userWallets.map((wallet, index) => {
+          {!wallets && <div>Loading...</div>}
+          {wallets &&
+            wallets.map((wallet, index) => {
               return (
                 <div key={index} className={styles.wallet}>
                   <p>Name: {wallet.name}</p>
@@ -59,7 +52,7 @@ export default function Wallets({ wallets }) {
                 </div>
               );
             })}
-          {userWallets?.length === 0 && <div>No wallets</div>}
+          {wallets?.length === 0 && <div>No wallets</div>}
         </div>
         <AddWallet />
       </div>
