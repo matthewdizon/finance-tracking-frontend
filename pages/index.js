@@ -2,7 +2,8 @@ import styles from "../styles/index.module.scss";
 import Layout from "../components/Layout";
 import AddTransaction from "../components/AddTransaction";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
+import SignIn from "./auth/signIn";
 
 export default function Home({ transactions, wallets }) {
   const router = useRouter();
@@ -10,6 +11,10 @@ export default function Home({ transactions, wallets }) {
   const { data: session } = useSession();
   const user = session?.user;
   const userId = user?.id;
+
+  if (!session) {
+    return <div></div>;
+  }
 
   const deleteTransaction = async (id) => {
     const res = await fetch("/api/transactions/" + id, {
@@ -26,8 +31,6 @@ export default function Home({ transactions, wallets }) {
   transactions = transactions?.filter((transaction) => {
     return transaction.user === userId;
   });
-
-  console.log(transactions);
 
   return (
     <Layout>
@@ -64,7 +67,18 @@ export default function Home({ transactions, wallets }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/auth/signIn",
+        permanent: false,
+      },
+    };
+  }
+
   const transactions = await (
     await fetch(`${process.env.BACKEND_SERVER}/api/transactions`)
   ).json();

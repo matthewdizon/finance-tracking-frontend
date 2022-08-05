@@ -26,7 +26,7 @@ export default function AddTransaction({ wallets }) {
   });
 
   useEffect(() => {
-    setSelectedWallet(wallets[0]._id);
+    setSelectedWallet(wallets[0]?._id);
   }, [wallets]);
 
   const handleSubmit = async (e) => {

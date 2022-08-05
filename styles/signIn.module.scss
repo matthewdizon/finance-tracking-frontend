@@ -1,0 +1,22 @@
+.signInContainer {
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  height: 100vh;
+  width: 100vw;
+
+  background-color: white;
+  color: black;
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  button {
+    margin-top: 24px;
+    padding: 8px 12px;
+  }
+}

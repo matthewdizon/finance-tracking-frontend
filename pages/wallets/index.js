@@ -3,7 +3,7 @@ import styles from "../../styles/wallets.module.scss";
 import AddWallet from "../../components/AddWallet";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 
 export default function Wallets({ wallets }) {
   const router = useRouter();
@@ -60,7 +60,18 @@ export default function Wallets({ wallets }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/auth/signIn",
+        permanent: false,
+      },
+    };
+  }
+
   const res = await fetch(`${process.env.BACKEND_SERVER}/api/wallets`);
   const wallets = await res.json();
 

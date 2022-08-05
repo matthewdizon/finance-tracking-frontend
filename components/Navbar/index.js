@@ -18,7 +18,9 @@ export default function Navbar() {
           <button onClick={() => signOut()}>Sign Out</button>
         </div>
       ) : (
-        <button onClick={() => signIn()}>Sign in</button>
+        <Link href="/auth/signIn">
+          <button>Sign in</button>
+        </Link>
       )}
     </nav>
   );
