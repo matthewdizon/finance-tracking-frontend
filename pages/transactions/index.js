@@ -4,6 +4,7 @@ import AddTransaction from "../../components/AddTransaction";
 import { useRouter } from "next/router";
 import { getSession, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function Home({ transactions, wallets }) {
   const router = useRouter();
@@ -11,6 +12,9 @@ export default function Home({ transactions, wallets }) {
   const { data: session } = useSession();
   const user = session?.user;
   const userId = user?.id;
+
+  const [userTransactions, setUserTransactions] = useState(null);
+  const [userWallets, setUserWallets] = useState(null);
 
   const deleteTransaction = async (id) => {
     const res = await fetch("/api/transactions/" + id, {
@@ -24,13 +28,18 @@ export default function Home({ transactions, wallets }) {
     }
   };
 
-  transactions = transactions?.filter((transaction) => {
-    return transaction.user === userId;
+  transactions?.filter((transaction) => {
+    transaction.user === userId;
   });
 
-  wallets = wallets?.filter((wallet) => {
-    return wallet.user === userId;
+  wallets?.filter((wallet) => {
+    wallet.user === userId;
   });
+
+  useEffect(() => {
+    setUserTransactions(transactions);
+    setUserWallets(wallets);
+  }, [wallets, transactions, userId]);
 
   if (wallets?.length === 0) {
     return (
@@ -49,9 +58,9 @@ export default function Home({ transactions, wallets }) {
       <div className={styles.homeContainer}>
         <div className={styles.transactions}>
           <h2>Transactions</h2>
-          {!transactions && <div>Loading...</div>}
-          {transactions &&
-            transactions.map((transaction, index) => {
+          {!userTransactions && <div>Loading...</div>}
+          {userTransactions &&
+            userTransactions.map((transaction, index) => {
               const wallet = wallets.find(
                 (wallet) => wallet._id === transaction.wallet
               );
@@ -71,7 +80,7 @@ export default function Home({ transactions, wallets }) {
                 </div>
               );
             })}
-          {transactions?.length === 0 && <div>No transactions</div>}
+          {userTransactions?.length === 0 && <div>No transactions</div>}
         </div>
         <AddTransaction wallets={wallets} />
       </div>
