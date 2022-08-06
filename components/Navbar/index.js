@@ -1,6 +1,7 @@
 import Link from "next/link";
 import styles from "./navbar.module.scss";
 import { useSession, signOut } from "next-auth/react";
+import Image from "next/image";
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -16,6 +17,14 @@ export default function Navbar() {
       {user ? (
         <div className={styles.userContainer}>
           <p>Welcome, {user.name}</p>
+          <div>
+            <Image
+              src={user.image}
+              height="50px"
+              width="50px"
+              alt="User Profile Image"
+            />
+          </div>
           <button onClick={() => signOut()}>Sign Out</button>
         </div>
       ) : (

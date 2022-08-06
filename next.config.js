@@ -21,5 +21,8 @@ module.exports = () => {
   };
   return {
     rewrites,
+    images: {
+      domains: ["localhost", "lh3.googleusercontent.com"], // <== Domain name
+    },
   };
 };
