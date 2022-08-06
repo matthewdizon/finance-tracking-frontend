@@ -24,7 +24,7 @@ export default function Wallets({ wallets }) {
     }
   };
 
-  wallets = wallets?.filter((wallet) => {
+  const userWallets = wallets?.filter((wallet) => {
     return wallet.user === userId;
   });
 
@@ -33,9 +33,9 @@ export default function Wallets({ wallets }) {
       <div className={styles.container}>
         <div className={styles.wallets}>
           <h2>Wallets</h2>
-          {!wallets && <div>Loading...</div>}
-          {wallets &&
-            wallets.map((wallet, index) => {
+          {!userWallets && <div>Loading...</div>}
+          {userWallets &&
+            userWallets.map((wallet, index) => {
               return (
                 <div key={index} className={styles.wallet}>
                   <p>Name: {wallet.name}</p>
@@ -52,7 +52,7 @@ export default function Wallets({ wallets }) {
                 </div>
               );
             })}
-          {wallets?.length === 0 && <div>No wallets</div>}
+          {userWallets?.length === 0 && <div>No wallets</div>}
         </div>
         <AddWallet />
       </div>

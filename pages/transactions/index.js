@@ -4,7 +4,6 @@ import AddTransaction from "../../components/AddTransaction";
 import { useRouter } from "next/router";
 import { getSession, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 export default function Home({ transactions, wallets }) {
   const router = useRouter();
@@ -12,9 +11,6 @@ export default function Home({ transactions, wallets }) {
   const { data: session } = useSession();
   const user = session?.user;
   const userId = user?.id;
-
-  const [userTransactions, setUserTransactions] = useState(null);
-  const [userWallets, setUserWallets] = useState(null);
 
   const deleteTransaction = async (id) => {
     const res = await fetch("/api/transactions/" + id, {
@@ -28,20 +24,17 @@ export default function Home({ transactions, wallets }) {
     }
   };
 
-  transactions?.filter((transaction) => {
-    transaction.user === userId;
+  const userTransactions = transactions?.filter((transaction) => {
+    return transaction.user === userId;
   });
 
-  wallets?.filter((wallet) => {
-    wallet.user === userId;
+  const userWallets = wallets?.filter((wallet) => {
+    return wallet.user === userId;
   });
 
-  useEffect(() => {
-    setUserTransactions(transactions);
-    setUserWallets(wallets);
-  }, [wallets, transactions, userId]);
+  console.log(userWallets);
 
-  if (wallets?.length === 0) {
+  if (userWallets?.length === 0) {
     return (
       <Layout>
         <div className={styles.emptyWalletContainer}>
