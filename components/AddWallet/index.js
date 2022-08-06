@@ -59,6 +59,7 @@ export default function AddWallet({}) {
           type="number"
           onChange={(e) => setAmount(e.target.value)}
           value={amount}
+          step=".01"
         />
 
         <label>Description</label>
