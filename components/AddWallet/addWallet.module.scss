@@ -14,4 +14,9 @@
       padding: 8px;
     }
   }
+
+  @media (max-width: 850px) {
+    width: 100%;
+    padding: 0;
+  }
 }

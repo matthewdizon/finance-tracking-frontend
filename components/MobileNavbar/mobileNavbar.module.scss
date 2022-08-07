@@ -1,0 +1,23 @@
+.MobileNavbarContainer {
+  display: none;
+
+  @media (max-width: 1150px) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 10vh;
+    background-color: white;
+    color: black;
+    padding: 0 80px;
+    margin-bottom: 24px;
+
+    a {
+      margin-right: 20px;
+    }
+  }
+
+  @media (max-width: 500px) {
+    padding: 0 20px;
+  }
+}

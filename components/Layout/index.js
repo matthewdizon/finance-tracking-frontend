@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Navbar from "../Navbar";
+import MobileNavbar from "../MobileNavbar";
 // import Footer from "./Footer";
 import { useRouter } from "next/router";
 import styles from "./layout.module.scss";
@@ -31,6 +32,7 @@ export default function Layout({ children, title }) {
                 <meta property="twitter:description" content="Hi, I'm Matthew. I'm a student and a software developer who is highly inclined to personal development and blockchain technology." />
                 <meta property="twitter:image" content="https://www.matthewdizon.com/wedding.jpeg"></meta> */}
       </Head>
+      <MobileNavbar />
       <Navbar />
       <main className={styles.mainContainer}>{children}</main>
       {/* { router.pathname == "/" ? null :
