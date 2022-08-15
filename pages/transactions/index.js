@@ -4,6 +4,7 @@ import AddTransaction from "../../components/AddTransaction";
 import { useRouter } from "next/router";
 import { getSession, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useTransition } from "react";
 
 export default function Home({ transactions, wallets }) {
   const router = useRouter();
@@ -28,6 +29,30 @@ export default function Home({ transactions, wallets }) {
     return transaction.user === userId;
   });
 
+  // console.log("tx", new Date(userTransactions[0].date).getMonth());
+
+  const d = new Date();
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  let month = d.getMonth();
+
+  const monthlyTransactions = userTransactions?.filter((transaction) => {
+    // return transaction.user === userId;
+    return new Date(transaction.date).getMonth() === month;
+  });
+
   const userWallets = wallets?.filter((wallet) => {
     return wallet.user === userId;
   });
@@ -46,11 +71,24 @@ export default function Home({ transactions, wallets }) {
     );
   }
 
+  // for (const transaction of userTransactions) {
+  //   console.log(transaction.amount);
+  // }
+
+  var monthlyExpenses = monthlyTransactions
+    .filter(({ tag }) => tag === "Expense")
+    .reduce(function (acc, obj) {
+      return acc + obj.amount;
+    }, 0);
+
   return (
     <Layout>
       <div className={styles.homeContainer}>
         <div className={styles.transactions}>
           <h2>Transactions</h2>
+          <p>
+            Expenses for the month of {months[month]}: {monthlyExpenses}
+          </p>
           {!userTransactions && <div>Loading...</div>}
           {userTransactions &&
             userTransactions.map((transaction, index) => {
