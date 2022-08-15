@@ -27,7 +27,7 @@ export default function AddTransaction({ wallets }) {
 
   useEffect(() => {
     setSelectedWallet(wallets[0]?._id);
-  }, [wallets]);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -66,6 +66,8 @@ export default function AddTransaction({ wallets }) {
     }
   };
 
+  console.log(selectedWallet);
+
   return (
     <div className={styles.addContainer}>
       <h2>Add Transaction</h2>
@@ -91,9 +93,9 @@ export default function AddTransaction({ wallets }) {
         <select value={tag} onChange={(e) => setTag(e.target.value)}>
           <option value="Expense">Expense</option>
           <option value="Income">Income</option>
-          <option value="Investment">Investment</option>
+          {/* <option value="Investment">Investment</option>
           <option value="Transfer">Transfer</option>
-          <option value="Savings">Savings</option>
+          <option value="Savings">Savings</option> */}
         </select>
 
         <label>Wallet</label>
