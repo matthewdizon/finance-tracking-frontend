@@ -11,7 +11,7 @@ export default function AddTransaction({ wallets }) {
   const userId = user?.id;
 
   const curr = new Date();
-  curr.setDate(curr.getDate() + 3);
+  curr.setDate(curr.getDate());
   const today = curr.toISOString().substring(0, 10);
 
   const [selectedWallet, setSelectedWallet] = useState("");
