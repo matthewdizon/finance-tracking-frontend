@@ -87,7 +87,8 @@ export default function Home({ transactions, wallets }) {
         <div className={styles.transactions}>
           <h2>Transactions</h2>
           <p>
-            Expenses for the month of {months[month]}: {monthlyExpenses}
+            Expenses for the month of {months[month]}:{" "}
+            {Number(monthlyExpenses).toFixed(2)}
           </p>
           {!userTransactions && <div>Loading...</div>}
           {userTransactions &&
