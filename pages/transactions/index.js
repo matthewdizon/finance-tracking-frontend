@@ -4,14 +4,34 @@ import AddTransaction from "../../components/AddTransaction";
 import { useRouter } from "next/router";
 import { getSession, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 
-export default function Home({ transactions, wallets }) {
+export default function Home() {
   const router = useRouter();
 
   const { data: session } = useSession();
   const user = session?.user;
   const userId = user?.id;
+
+  const [transactions, setTransactions] = useState(null);
+  const [wallets, setWallets] = useState(null);
+
+  const fetchData = async () => {
+    const transactionsRes = await (
+      await fetch(`${process.env.BACKEND_SERVER}/api/transactions`)
+    ).json();
+
+    const walletsRes = await (
+      await fetch(`${process.env.BACKEND_SERVER}/api/wallets`)
+    ).json();
+
+    setTransactions(transactionsRes);
+    setWallets(walletsRes);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const deleteTransaction = async (id) => {
     const res = await fetch("/api/transactions/" + id, {
@@ -132,13 +152,5 @@ export async function getServerSideProps(context) {
     };
   }
 
-  const transactions = await (
-    await fetch(`${process.env.BACKEND_SERVER}/api/transactions`)
-  ).json();
-
-  const wallets = await (
-    await fetch(`${process.env.BACKEND_SERVER}/api/wallets`)
-  ).json();
-
-  return { props: { transactions, wallets } };
+  return {};
 }
