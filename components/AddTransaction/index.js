@@ -41,7 +41,7 @@ export default function AddTransaction({ wallets }) {
       userId,
     };
 
-    const res = await fetch("/api/transactions", {
+    const res = await fetch(`${process.env.BACKEND_SERVER}/api/transactions`, {
       method: "POST",
       body: JSON.stringify(transaction),
       headers: {
