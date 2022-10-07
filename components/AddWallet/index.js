@@ -20,13 +20,16 @@ export default function AddWallet({}) {
 
     const wallet = { name, amount, description, userId };
 
-    const res = await fetch(`${process.env.BACKEND_SERVER}/api/wallets`, {
-      method: "POST",
-      body: JSON.stringify(wallet),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_SERVER}/api/wallets`,
+      {
+        method: "POST",
+        body: JSON.stringify(wallet),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     const json = await res.json();
 

@@ -41,13 +41,16 @@ export default function AddTransaction({ wallets }) {
       userId,
     };
 
-    const res = await fetch(`${process.env.BACKEND_SERVER}/api/transactions`, {
-      method: "POST",
-      body: JSON.stringify(transaction),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_SERVER}/api/transactions`,
+      {
+        method: "POST",
+        body: JSON.stringify(transaction),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     const json = await res.json();
 

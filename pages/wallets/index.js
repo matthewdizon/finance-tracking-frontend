@@ -72,7 +72,9 @@ export async function getServerSideProps(context) {
     };
   }
 
-  const res = await fetch(`${process.env.BACKEND_SERVER}/api/wallets`);
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_SERVER}/api/wallets`
+  );
   const wallets = await res.json();
 
   return { props: { wallets } };

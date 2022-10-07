@@ -42,11 +42,11 @@ export async function getServerSideProps(context) {
   }
 
   const wallets = await (
-    await fetch(`${process.env.BACKEND_SERVER}/api/wallets/`)
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_SERVER}/api/wallets/`)
   ).json();
 
   const transactions = await (
-    await fetch(`${process.env.BACKEND_SERVER}/api/transactions/`)
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_SERVER}/api/transactions/`)
   ).json();
 
   const walletId = context.params.id;
