@@ -1,5 +1,6 @@
-module.exports = () => {
-  const headers = async () => {
+// next.config.js
+module.exports = {
+  async headers() {
     return [
       {
         // matching all API routes
@@ -19,12 +20,5 @@ module.exports = () => {
         ],
       },
     ];
-  };
-  return {
-    // rewrites,
-    headers,
-    images: {
-      domains: ["localhost", "lh3.googleusercontent.com"], // <== Domain name
-    },
-  };
+  },
 };

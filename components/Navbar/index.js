@@ -17,14 +17,14 @@ export default function Navbar() {
       {user ? (
         <div className={styles.userContainer}>
           <p>Welcome, {user.name}</p>
-          <div>
+          {/* <div>
             <Image
               src={user.image}
               height="50px"
               width="50px"
               alt="User Profile Image"
             />
-          </div>
+          </div> */}
           <button onClick={() => signOut()}>Sign Out</button>
         </div>
       ) : (
