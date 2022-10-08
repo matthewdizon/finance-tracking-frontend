@@ -14,9 +14,15 @@ export default function Home({ transactions, wallets }) {
   const userId = user?.id;
 
   const deleteTransaction = async (id) => {
-    const res = await fetch("/api/transactions/" + id, {
-      method: "DELETE",
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_SERVER}/api/transactions/` + id,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     const json = await res.json();
 
